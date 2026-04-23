@@ -247,7 +247,7 @@
   <img class="whale" id="whaleDeceased" src="./state_3_dark.svg" alt="">
 </div>
 
-<button class="check-button" id="checkBtn" onclick="checkTimmyStatus()">Check</button>
+<button class="check-button" id="checkBtn" onclick="checkTimmyStatus()">Ask Timmy</button>
 
 <script>
   function triggerWhaleWink() {
@@ -267,7 +267,7 @@
     btn.disabled = true;
     titleEl.innerHTML = 'Is <s>Timmy</s> Hope still alive?';
     titleEl.style.color = '#0a1e3d';
-    btn.innerHTML = '<span class="loading">⏳</span> Searching news...';
+    btn.innerHTML = '<span class="loading">⏳</span> Asking Timmy...';
     container.classList.remove('deceased');
 
     let dead = false;
@@ -305,7 +305,7 @@
     } catch (e) {
       titleEl.textContent = 'Kein Netzzugang';
       titleEl.style.color = '#ff6b6b';
-      btn.innerHTML = 'Check';
+      btn.innerHTML = 'Ask Timmy';
       btn.disabled = false;
       return;
     }
@@ -313,18 +313,18 @@
     if (dead) {
       titleEl.innerHTML = '<s>Timmy</s> Hope is dead 💀';
       titleEl.style.color = '#ff6b6b';
-      btn.innerHTML = 'Results: DECEASED ⚠️';
+      btn.innerHTML = 'I am dead 💀';
       container.classList.add('deceased');
     } else {
       titleEl.innerHTML = '<s>Timmy</s> Hope is still alive';
       titleEl.style.color = '#0a1e3d';
-      btn.innerHTML = 'Results: ALIVE ✓';
+      btn.innerHTML = 'I am okay';
       triggerWhaleWink();
     }
 
     setTimeout(() => {
       btn.disabled = false;
-      btn.innerHTML = 'Check';
+      btn.innerHTML = 'Ask Timmy';
     }, 3000);
   }
 </script>
