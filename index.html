@@ -48,7 +48,6 @@
       width: clamp(180px, 50vmin, 540px);
       height: clamp(180px, 50vmin, 540px);
       z-index: 10;
-      isolation: isolate;
     }
 
     .whale {
@@ -58,9 +57,7 @@
       width: 100%;
       height: 100%;
       object-fit: contain;
-      filter: brightness(0) invert(1) drop-shadow(0 8px 24px rgba(0,0,0,0.25));
-      transform: translateZ(0);
-      backface-visibility: hidden;
+      filter: drop-shadow(0 8px 24px rgba(0,0,0,0.25));
     }
 
     #whaleWink { opacity: 0; }
