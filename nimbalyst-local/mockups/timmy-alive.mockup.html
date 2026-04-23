@@ -13,19 +13,15 @@
       align-items: center;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       overflow-x: hidden;
-      background: #0d2b5e;
-    }
-
-    @media (orientation: portrait) {
-      body {
-        align-items: flex-start;
-        padding-top: 15vh;
-      }
+      background: linear-gradient(to bottom, #f0f8ff 0%, #b8e0f5 20%, #4a9fd4 50%, #1a5fa8 70%, #0d2b5e 100%);
     }
 
     .scene {
       position: fixed;
-      inset: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      width: 100%;
       z-index: 0;
     }
 
@@ -116,12 +112,6 @@
 <!-- FULL SCENE SVG BACKGROUND -->
 <svg class="scene" viewBox="0 0 1440 900" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMax meet">
   <defs>
-    <linearGradient id="skyGrad" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#f0f8ff"/>
-      <stop offset="25%" stop-color="#b8e0f5"/>
-      <stop offset="55%" stop-color="#4a9fd4"/>
-      <stop offset="100%" stop-color="#0d2b5e"/>
-    </linearGradient>
     <linearGradient id="blob1Grad" x1="0" y1="0" x2="0" y2="1">
       <stop offset="0%" stop-color="#d6f0fb"/>
       <stop offset="100%" stop-color="#7ecef4"/>
@@ -131,9 +121,6 @@
       <stop offset="100%" stop-color="#0a1e3d"/>
     </linearGradient>
   </defs>
-
-  <!-- Base sky-to-ocean gradient -->
-  <rect width="1440" height="900" fill="url(#skyGrad)"/>
 
   <!-- Large light blob (top right, like reference) -->
   <ellipse cx="1080" cy="200" rx="280" ry="230" fill="url(#blob1Grad)" opacity="0.55"/>
