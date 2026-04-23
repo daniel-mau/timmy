@@ -12,8 +12,15 @@
       justify-content: center;
       align-items: center;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      overflow: hidden;
+      overflow-x: hidden;
       background: #0d2b5e;
+    }
+
+    @media (orientation: portrait) {
+      body {
+        align-items: flex-start;
+        padding-top: 5vh;
+      }
     }
 
     .scene {
