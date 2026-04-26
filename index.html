@@ -105,7 +105,7 @@
 <video id="videoBackground" class="video-background" playsinline></video>
 
 <!-- Text overlay -->
-<div class="question" id="titleText">Is <s>Timmy</s> Hope still alive?</div>
+<div class="question" id="titleText">Is <s>Timmy</s> Hope still alive ?</div>
 
 <button class="check-button" id="checkBtn" onclick="checkTimmyStatus()">Ask Timmy</button>
 
@@ -122,7 +122,7 @@
     const videoEl = document.getElementById('videoBackground');
 
     btn.disabled = true;
-    titleEl.innerHTML = 'Is <s>Timmy</s> Hope still alive?';
+    titleEl.innerHTML = 'Is <s>Timmy</s> Hope still alive ?';
     btn.innerHTML = '<span class="loading">⏳</span> Asking Timmy...';
 
     // Play video once
@@ -182,7 +182,7 @@
           btn.innerHTML = 'Ask Timmy';
         }, 3000);
       } else {
-        titleEl.innerHTML = '<s>Timmy</s> Hope is alive!';
+        titleEl.innerHTML = '<s>Timmy</s> Hope is alive !';
         btn.disabled = false;
         btn.innerHTML = 'Ask Timmy';
       }
