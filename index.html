@@ -50,7 +50,7 @@
 
     .question {
       position: fixed;
-      top: 25%;
+      top: 20%;
       left: 50%;
       transform: translateX(-50%);
       text-align: center;
@@ -66,10 +66,6 @@
       width: 100%;
       max-width: 90%;
       white-space: nowrap;
-    }
-
-    .question .name {
-      color: #4A9FCA;
     }
 
     .check-button {
@@ -103,7 +99,7 @@
 <video id="videoBackground" class="video-background" playsinline></video>
 
 <!-- Text overlay -->
-<div class="question" id="titleText">Is <s><span class="name">Timmy</span></s> <span class="name">Hope</span> still alive!</div>
+<div class="question" id="titleText">Is Timmy Hope still alive?</div>
 
 <button class="check-button" id="checkBtn" onclick="checkTimmyStatus()">Ask Timmy</button>
 
@@ -120,8 +116,7 @@
     const videoEl = document.getElementById('videoBackground');
 
     btn.disabled = true;
-    titleEl.innerHTML = 'Is <s><span class="name">Timmy</span></s> <span class="name">Hope</span> still alive!';
-    titleEl.style.color = '';
+    titleEl.innerHTML = 'Is Timmy Hope still alive?';
     btn.innerHTML = '<span class="loading">⏳</span> Asking Timmy...';
 
     // Play video once
@@ -172,12 +167,10 @@
     }
 
     if (dead) {
-      titleEl.innerHTML = '<s><span class="name">Timmy</span></s> <span class="name">Hope</span> is dead 💀';
-      titleEl.style.color = '#ff6b6b';
+      titleEl.innerHTML = 'Timmy Hope is dead 💀';
       btn.innerHTML = 'I am dead 💀';
     } else {
-      titleEl.innerHTML = '<s><span class="name">Timmy</span></s> <span class="name">Hope</span> is still alive!';
-      titleEl.style.color = '';
+      titleEl.innerHTML = 'Timmy Hope is alive!';
       btn.innerHTML = 'I am still there';
     }
 
