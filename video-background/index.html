@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Open Graph / Social Media Preview -->
+  <meta property="og:title" content="Is Timmy alive? 🐋">
+  <meta property="og:description" content="Don't read the news. Ask Timmy yourself if he is still alive.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://istimmyalive.com">
+  <meta property="og:image" content="https://istimmyalive.com/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Is Timmy alive? 🐋">
+  <meta name="twitter:description" content="Don't read the news. Ask Timmy yourself if he is still alive.">
+  <meta name="twitter:image" content="https://istimmyalive.com/og-image.png">
+
+  <!-- Standard Meta Tags -->
+  <meta name="description" content="Check if Timmy is still alive. Real news-based detection with an interactive whale friend.">
+  <meta name="theme-color" content="#4a9fd4">
+  <title>Is Timmy alive? 🐋</title>
+
+  <style>
+    @font-face {
+      font-family: 'FindetNemo';
+      src: url('./FindetNemo-KVxD.ttf') format('truetype');
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      overflow-x: hidden;
+      background: white;
+      position: relative;
+    }
+
+    .video-background {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: 0;
+    }
+
+    .question {
+      position: fixed;
+      top: 8%;
+      left: 50%;
+      transform: translateX(-50%);
+      text-align: center;
+      z-index: 10;
+      padding: 0 20px;
+      font-size: clamp(3rem, 7.5vw, 5.25rem);
+      font-weight: 400;
+      font-family: 'FindetNemo', sans-serif;
+      color: white;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5), 0 0 20px rgba(0, 0, 0, 0.3);
+      letter-spacing: 0px;
+      line-height: 1.2;
+      text-transform: capitalize;
+      width: 100%;
+      max-width: 90%;
+      white-space: nowrap;
+    }
+
+    .check-button {
+      position: fixed;
+      bottom: 15%;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 10;
+      background: white;
+      border: none;
+      color: #4A9FCA;
+      padding: clamp(14px, 2.5vw, 18px) clamp(36px, 8vw, 56px);
+      font-size: clamp(1.1rem, 3vw, 1.4rem);
+      font-weight: 600;
+      border-radius: 40px;
+      cursor: pointer;
+      transition: box-shadow 0.3s ease, opacity 0.3s ease;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+      white-space: nowrap;
+    }
+    .check-button:hover { box-shadow: 0 6px 20px rgba(0,0,0,0.3); }
+    .check-button:disabled { opacity: 0.7; cursor: not-allowed; }
+
+    .loading { display: inline-block; animation: spin 1s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* Loading Screen */
+    #loadingScreen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #5AACDF 0%, #2E7BA8 100%);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 100;
+      opacity: 1;
+      transition: opacity 0.6s ease;
+    }
+
+    .bubbles-container {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    .bubble {
+      position: absolute;
+      bottom: -100px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.3);
+      border: 2px solid rgba(255, 255, 255, 0.5);
+      animation: rise linear infinite;
+    }
+
+    @keyframes rise {
+      0% {
+        bottom: -100px;
+        opacity: 0;
+      }
+      10% {
+        opacity: 0.7;
+      }
+      90% {
+        opacity: 0.7;
+      }
+      100% {
+        bottom: 110vh;
+        opacity: 0;
+      }
+    }
+
+    /* Bubble variation styles */
+    .bubble:nth-child(1) { width: 30px; height: 30px; left: 10%; animation-duration: 6s; animation-delay: 0s; }
+    .bubble:nth-child(2) { width: 50px; height: 50px; left: 20%; animation-duration: 7s; animation-delay: 1s; }
+    .bubble:nth-child(3) { width: 25px; height: 25px; left: 30%; animation-duration: 5s; animation-delay: 0.5s; }
+    .bubble:nth-child(4) { width: 45px; height: 45px; left: 40%; animation-duration: 8s; animation-delay: 2s; }
+    .bubble:nth-child(5) { width: 35px; height: 35px; left: 50%; animation-duration: 6s; animation-delay: 0.7s; }
+    .bubble:nth-child(6) { width: 40px; height: 40px; left: 60%; animation-duration: 7s; animation-delay: 1.5s; }
+    .bubble:nth-child(7) { width: 28px; height: 28px; left: 70%; animation-duration: 5.5s; animation-delay: 0.3s; }
+    .bubble:nth-child(8) { width: 55px; height: 55px; left: 80%; animation-duration: 8s; animation-delay: 1.2s; }
+    .bubble:nth-child(9) { width: 32px; height: 32px; left: 15%; animation-duration: 6.5s; animation-delay: 2.5s; }
+    .bubble:nth-child(10) { width: 48px; height: 48px; left: 85%; animation-duration: 7.5s; animation-delay: 0.9s; }
+    .bubble:nth-child(11) { width: 26px; height: 26px; left: 45%; animation-duration: 5.5s; animation-delay: 1.8s; }
+    .bubble:nth-child(12) { width: 38px; height: 38px; left: 75%; animation-duration: 7s; animation-delay: 0.2s; }
+
+    /* Hide main content until loading is done */
+    .main-content {
+      opacity: 0;
+      transition: opacity 0.6s ease;
+    }
+
+    .main-content.visible {
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+
+<!-- Loading Screen -->
+<div id="loadingScreen">
+  <div class="bubbles-container">
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+  </div>
+</div>
+
+<!-- Main Content -->
+<div class="main-content">
+  <!-- Video Background -->
+  <video id="videoBackground" class="video-background" playsinline></video>
+
+  <!-- Text overlay -->
+  <div class="question" id="titleText">Is <s>Timmy</s> Hope still alive ?</div>
+
+  <button class="check-button" id="checkBtn" onclick="checkTimmyStatus()">Ask Timmy</button>
+</div>
+
+<script>
+  // Load video and hide loading screen
+  document.addEventListener('DOMContentLoaded', () => {
+    const loadingScreen = document.getElementById('loadingScreen');
+    const mainContent = document.querySelector('.main-content');
+    const videoEl = document.getElementById('videoBackground');
+
+    function hideLoadingScreen() {
+      loadingScreen.style.opacity = '0';
+      setTimeout(() => {
+        loadingScreen.style.display = 'none';
+        mainContent.classList.add('visible');
+      }, 600);
+    }
+
+    // Hide loading screen after a short delay
+    setTimeout(hideLoadingScreen, 2000);
+  });
+
+  async function checkTimmyStatus() {
+    const btn = document.getElementById('checkBtn');
+    const titleEl = document.getElementById('titleText');
+    const videoEl = document.getElementById('videoBackground');
+
+    btn.disabled = true;
+    titleEl.innerHTML = 'Is <s>Timmy</s> Hope still alive ?';
+    btn.innerHTML = '<span class="loading">⏳</span> Asking Timmy...';
+
+    let dead = false;
+
+    try {
+      const proxyUrl = 'https://felix.hamburg/istimmyalive/';
+
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), 6000);
+      const resp = await fetch(proxyUrl, { signal: controller.signal });
+      clearTimeout(timeout);
+
+      if (!resp.ok) {
+        throw new Error(`HTTP ${resp.status}`);
+      }
+
+      const text = await resp.text();
+      const xml = new DOMParser().parseFromString(text, 'text/xml');
+      const items = Array.from(xml.querySelectorAll('item'));
+
+      const deadWords  = ['tot', 'tote', 'gestorben', 'verendet', 'stirbt', 'sterben', 'dead', 'died', 'death'];
+      const aliveWords = ['lebt', 'gerettet', 'rettet', 'rettung', 'lebend', 'alive', 'rescue', 'surviv', 'überleb'];
+
+      let deadCount = 0, aliveCount = 0;
+
+      items.forEach(item => {
+        const content = (
+          (item.querySelector('title')?.textContent || '') + ' ' +
+          (item.querySelector('description')?.textContent || '')
+        ).toLowerCase();
+
+        deadWords.forEach(w  => { if (content.includes(w)) deadCount++;  });
+        aliveWords.forEach(w => { if (content.includes(w)) aliveCount++; });
+      });
+
+      dead = deadCount > 0 && deadCount >= aliveCount;
+
+    } catch (e) {
+      titleEl.textContent = 'Kein Netzzugang';
+      titleEl.style.color = '#ff6b6b';
+      btn.innerHTML = 'Ask Timmy';
+      btn.disabled = false;
+      return;
+    }
+
+    // Show result and play corresponding video
+    if (dead) {
+      titleEl.innerHTML = '<s>Timmy</s> Hope is dead 💀';
+      btn.innerHTML = 'I am dead 💀';
+
+      // Play dead video
+      videoEl.src = './dead_vid.mp4';
+      videoEl.currentTime = 0;
+      videoEl.play().catch(err => console.log('Video play error:', err));
+
+      setTimeout(() => {
+        btn.disabled = false;
+        btn.innerHTML = 'Ask Timmy';
+      }, 3000);
+    } else {
+      titleEl.innerHTML = '<s>Timmy</s> Hope is alive !';
+      btn.disabled = false;
+      btn.innerHTML = 'Ask Timmy';
+
+      // Play alive video
+      videoEl.src = './alive_vid.mp4';
+      videoEl.currentTime = 0;
+      videoEl.play().catch(err => console.log('Video play error:', err));
+    }
+  }
+</script>
+</body>
+</html>
