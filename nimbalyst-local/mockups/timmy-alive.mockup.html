@@ -62,7 +62,7 @@
       position: fixed;
       left: 0;
       top: 0;
-      width: 42%;
+      width: 33%;
       height: 100vh;
       z-index: 9;
       display: flex;
@@ -85,40 +85,10 @@
       line-height: 1.2;
     }
 
-    .whale-container {
-      position: fixed;
-      top: 50%;
-      right: 10%;
-      transform: translateY(-50%);
-      width: clamp(180px, 40vmin, 450px);
-      height: clamp(180px, 40vmin, 450px);
-      z-index: 10;
-    }
-
-    .whale {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-    }
-
-    #whaleWink { opacity: 0; }
-    #whaleDeceased { opacity: 0; }
-
-    .whale-container.deceased #whaleNormal,
-    .whale-container.deceased #whaleWink {
-      opacity: 0;
-    }
-    .whale-container.deceased #whaleDeceased {
-      opacity: 1;
-    }
-
     .check-button {
       position: fixed;
       bottom: 8vh;
-      left: 30%;
+      left: 16.5%;
       transform: translateX(-50%);
       z-index: 10;
       background: linear-gradient(135deg, #3B7BA6, #4A9FCA);
@@ -138,21 +108,6 @@
 
     .loading { display: inline-block; animation: spin 1s linear infinite; }
     @keyframes spin { to { transform: rotate(360deg); } }
-
-    @keyframes showWink {
-      0%, 100% { opacity: 0; }
-      10%, 90%  { opacity: 1; }
-    }
-    @keyframes hideNormal {
-      0%, 100% { opacity: 1; }
-      10%, 90%  { opacity: 0; }
-    }
-    .whale-container:focus-within #whaleNormal {
-      animation: hideNormal 0.5s ease-in-out forwards;
-    }
-    .whale-container:focus-within #whaleWink {
-      animation: showWink 0.5s ease-in-out forwards;
-    }
   </style>
 </head>
 <body>
@@ -162,19 +117,12 @@
 
 <!-- White curved shape -->
 <svg class="left-shape-svg" viewBox="0 0 100 100" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-  <path d="M 0 0 L 50 0 C 62 12, 44 32, 42 50 C 40 68, 60 82, 50 100 L 0 100 Z" fill="white"/>
+  <path d="M 0 0 L 50 0 C 48 30, 42 65, 33 100 L 0 100 Z" fill="white"/>
 </svg>
 
 <!-- Left content -->
 <div class="left-content">
   <div class="question" id="titleText">Is <s>Timmy</s> Hope still alive?</div>
-</div>
-
-<div class="whale-container" id="whaleContainer">
-  <input id="winkTrigger" tabindex="-1" style="position:absolute;opacity:0;pointer-events:none;width:1px;height:1px;border:none;outline:none;" readonly>
-  <img class="whale" id="whaleNormal" src="./state_1_leer_dark.svg" alt="">
-  <img class="whale" id="whaleWink" src="./state_2_dark.svg" alt="">
-  <img class="whale" id="whaleDeceased" src="./state_3_dark.svg" alt="">
 </div>
 
 <button class="check-button" id="checkBtn" onclick="checkTimmyStatus()">Ask Timmy</button>
@@ -186,26 +134,15 @@
     videoEl.src = './alive_vid.mov';
   });
 
-  function triggerWhaleWink() {
-    var trigger = document.getElementById('winkTrigger');
-    trigger.blur();
-    setTimeout(function() {
-      trigger.focus();
-      setTimeout(function() { trigger.blur(); }, 550);
-    }, 20);
-  }
-
   async function checkTimmyStatus() {
     const btn = document.getElementById('checkBtn');
     const titleEl = document.getElementById('titleText');
-    const container = document.getElementById('whaleContainer');
     const videoEl = document.getElementById('videoBackground');
 
     btn.disabled = true;
     titleEl.innerHTML = 'Is <s>Timmy</s> Hope still alive?';
     titleEl.style.color = '#0a1e3d';
     btn.innerHTML = '<span class="loading">⏳</span> Asking Timmy...';
-    container.classList.remove('deceased');
 
     // Play video once
     videoEl.currentTime = 0;
@@ -258,12 +195,10 @@
       titleEl.innerHTML = '<s>Timmy</s> Hope is dead 💀';
       titleEl.style.color = '#ff6b6b';
       btn.innerHTML = 'I am dead 💀';
-      container.classList.add('deceased');
     } else {
       titleEl.innerHTML = '<s>Timmy</s> Hope is still alive';
       titleEl.style.color = '#0a1e3d';
       btn.innerHTML = 'I am still there';
-      triggerWhaleWink();
     }
 
     setTimeout(() => {
