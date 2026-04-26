@@ -273,8 +273,7 @@
     let dead = false;
 
     try {
-      const rssUrl = 'https://news.google.com/rss/search?q=Timmy+Wal&hl=de&gl=DE&ceid=DE:de';
-      const proxyUrl = 'https://corsproxy.io/?' + encodeURIComponent(rssUrl);
+      const proxyUrl = 'https://felix.hamburg/istimmyalive/';
 
       const controller = new AbortController();
       const timeout = setTimeout(() => controller.abort(), 6000);
