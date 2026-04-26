@@ -356,7 +356,7 @@
       dead = deadCount > 0 && deadCount >= aliveCount;
 
     } catch (e) {
-      titleEl.textContent = 'Kein Netzzugang';
+      titleEl.textContent = 'No network connection';
       titleEl.style.color = '#ff6b6b';
       btn.innerHTML = 'Ask Timmy';
       btn.disabled = false;
@@ -365,6 +365,9 @@
 
     // Show result and play corresponding video
     const deadVideoEl = document.getElementById('deadVideoBackground');
+    // Reset text color to white for successful results
+    titleEl.style.color = 'white';
+
     if (dead) {
       titleEl.innerHTML = '<s>Timmy</s> Hope is dead 💀';
       btn.innerHTML = 'I am dead 💀';
