@@ -48,42 +48,23 @@
       z-index: 0;
     }
 
-    .left-shape-svg {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: 8;
-      pointer-events: none;
-    }
-
-    .left-content {
-      position: fixed;
-      left: 0;
-      top: 0;
-      width: 33%;
-      height: 100vh;
-      z-index: 9;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: flex-start;
-      padding: 60px;
-      box-sizing: border-box;
-    }
-
     .question {
-      text-align: left;
+      position: fixed;
+      top: 25%;
+      left: 50%;
+      transform: translateX(-50%);
+      text-align: center;
       z-index: 10;
-      padding: 0;
+      padding: 0 20px;
       font-size: clamp(2rem, 5vw, 3.5rem);
       font-weight: 600;
       color: #6eb5e8;
-      text-shadow: none;
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
       letter-spacing: 0px;
       line-height: 1.2;
       text-transform: uppercase;
+      width: 100%;
+      max-width: 600px;
     }
 
     .question .name {
@@ -92,8 +73,8 @@
 
     .check-button {
       position: fixed;
-      bottom: 8vh;
-      left: 16.5%;
+      bottom: 15%;
+      left: 50%;
       transform: translateX(-50%);
       z-index: 10;
       background: linear-gradient(135deg, #3B7BA6, #4A9FCA);
@@ -120,15 +101,8 @@
 <!-- Video Background -->
 <video id="videoBackground" class="video-background" playsinline></video>
 
-<!-- White curved shape -->
-<svg class="left-shape-svg" viewBox="0 0 100 100" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-  <path d="M 0 0 L 33 0 C 21 50, 18 80, 30 100 L 0 100 Z" fill="white"/>
-</svg>
-
-<!-- Left content -->
-<div class="left-content">
-  <div class="question" id="titleText">Is <s><span class="name">Timmy</span></s> <span class="name">Hope</span> still alive?</div>
-</div>
+<!-- Text overlay -->
+<div class="question" id="titleText">Is <s><span class="name">Timmy</span></s> <span class="name">Hope</span> still alive?</div>
 
 <button class="check-button" id="checkBtn" onclick="checkTimmyStatus()">Ask Timmy</button>
 
