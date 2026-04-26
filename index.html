@@ -63,7 +63,7 @@
       padding: 0 20px;
       font-size: clamp(2rem, 5vw, 3.5rem);
       font-weight: 400;
-      font-family: 'TouchOfNature', sans-serif;
+      font-family: Arial, sans-serif;
       color: white;
       text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
       letter-spacing: 0px;
@@ -123,7 +123,7 @@
 
     btn.disabled = true;
     titleEl.innerHTML = 'Is <s>Timmy</s> Hope still alive?';
-    btn.innerHTML = '<span class="loading">⏳</span> ASKING TIMMY...';
+    btn.innerHTML = '<span class="loading">⏳</span> Asking Timmy...';
 
     // Play video once
     videoEl.currentTime = 0;
@@ -167,7 +167,7 @@
     } catch (e) {
       titleEl.textContent = 'Kein Netzzugang';
       titleEl.style.color = '#ff6b6b';
-      btn.innerHTML = 'ASK TIMMY';
+      btn.innerHTML = 'Ask Timmy';
       btn.disabled = false;
       return;
     }
@@ -176,15 +176,15 @@
     function updateAfterVideo() {
       if (dead) {
         titleEl.innerHTML = '<s>Timmy</s> Hope is dead 💀';
-        btn.innerHTML = 'I AM DEAD 💀';
+        btn.innerHTML = 'I am dead 💀';
       } else {
         titleEl.innerHTML = '<s>Timmy</s> Hope is alive!';
-        btn.innerHTML = 'I AM STILL THERE';
+        btn.innerHTML = 'I am still there';
       }
 
       setTimeout(() => {
         btn.disabled = false;
-        btn.innerHTML = 'ASK TIMMY';
+        btn.innerHTML = 'Ask Timmy';
       }, 3000);
 
       videoEl.removeEventListener('ended', updateAfterVideo);
