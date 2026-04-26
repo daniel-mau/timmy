@@ -295,9 +295,10 @@
     videoEl.src = './alive_vid.mp4';
     videoEl.preload = 'auto';
 
-    // Pause at first frame (timeupdate fires when a frame is actually rendered)
+    // Pause at first frame and reset to 0 so video starts from the beginning when played
     videoEl.addEventListener('timeupdate', () => {
       videoEl.pause();
+      videoEl.currentTime = 0;
       aliveReady = true;
       checkIfBothReady();
     }, { once: true });
