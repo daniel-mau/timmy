@@ -247,14 +247,9 @@
 </div>
 
 <script>
-  // Animate loading text: LOADING → LOADING . → LOADING .. → LOADING ...
+  // Set static loading text
   const loadingTextEl = document.getElementById('loadingText');
-  const loadingStates = ['LOADING', 'LOADING .', 'LOADING ..', 'LOADING ...'];
-  let loadingIndex = 0;
-  const dotsInterval = setInterval(() => {
-    loadingIndex = (loadingIndex + 1) % loadingStates.length;
-    loadingTextEl.textContent = loadingStates[loadingIndex];
-  }, 400);
+  loadingTextEl.textContent = 'LOADING';
 
   // Preload both videos and hide loading screen when ready
   document.addEventListener('DOMContentLoaded', () => {
@@ -272,7 +267,6 @@
     }
 
     function hideLoadingScreen() {
-      clearInterval(dotsInterval);
       loadingScreen.style.opacity = '0';
       setTimeout(() => {
         loadingScreen.style.display = 'none';
@@ -378,7 +372,6 @@
       // Switch to dead video without load() — just swap visibility and replay
       videoEl.pause();
       videoEl.style.display = 'none';
-      deadVideoEl.muted = false;
       deadVideoEl.style.display = 'block';
       deadVideoEl.currentTime = 0;
       deadVideoEl.play().catch(err => console.log('Video play error:', err));
@@ -395,7 +388,6 @@
       // Switch back to alive video without load() — just swap visibility and replay
       deadVideoEl.pause();
       deadVideoEl.style.display = 'none';
-      videoEl.muted = false;
       videoEl.style.display = 'block';
       videoEl.currentTime = 0;
       videoEl.play().catch(err => console.log('Video play error:', err));
