@@ -254,8 +254,8 @@
 
 <!-- Main Content -->
 <div class="main-content">
-  <!-- Video Background -->
-  <video id="videoBackground" class="video-background" playsinline muted></video>
+  <!-- Video Background: autoplay+muted+playsinline required for iOS first-frame -->
+  <video id="videoBackground" class="video-background" playsinline muted autoplay></video>
 
   <!-- Text overlay -->
   <div class="question" id="titleText">Is <s>Timmy</s> Hope still alive ?</div>
@@ -293,29 +293,27 @@
       loadingScreen.style.opacity = '0';
       setTimeout(() => {
         loadingScreen.style.display = 'none';
-        // Ensure video first frame is visible
-        videoEl.currentTime = 0.001;
         mainContent.classList.add('visible');
       }, 600);
     }
 
-    // Set up alive video — play muted briefly, then pause to show first frame
+    // Set up alive video — autoplay+muted in HTML ensures iOS shows first frame
     videoEl.src = './alive_vid.mp4';
     videoEl.preload = 'auto';
-    videoEl.muted = true;
 
-    videoEl.addEventListener('canplay', () => {
-      videoEl.play().then(() => {
-        // Pause at very first frame once playback starts
-        videoEl.addEventListener('timeupdate', () => {
-          videoEl.pause();
-          aliveReady = true;
-          checkIfBothReady();
-        }, { once: true });
-      }).catch(() => {
+    // Pause at first frame (timeupdate fires when a frame is actually rendered)
+    videoEl.addEventListener('timeupdate', () => {
+      videoEl.pause();
+      aliveReady = true;
+      checkIfBothReady();
+    }, { once: true });
+
+    // Fallback if timeupdate doesn't fire (e.g. autoplay blocked)
+    videoEl.addEventListener('canplaythrough', () => {
+      if (!aliveReady) {
         aliveReady = true;
         checkIfBothReady();
-      });
+      }
     }, { once: true });
 
     // Create a hidden video element to preload the dead video
@@ -395,9 +393,10 @@
       titleEl.innerHTML = '<s>Timmy</s> Hope is dead 💀';
       btn.innerHTML = 'I am dead 💀';
 
-      // Switch to dead video and play
+      // iOS requires load() after src change before play()
+      videoEl.muted = false;
       videoEl.src = './dead_vid.mp4';
-      videoEl.currentTime = 0;
+      videoEl.load();
       videoEl.play().catch(err => console.log('Video play error:', err));
 
       setTimeout(() => {
@@ -409,9 +408,10 @@
       btn.disabled = false;
       btn.innerHTML = 'Ask Timmy';
 
-      // Play alive video (already loaded and visible)
+      // Unmute and replay from start — load() ensures iOS replays reliably
       videoEl.muted = false;
-      videoEl.currentTime = 0;
+      videoEl.src = './alive_vid.mp4';
+      videoEl.load();
       videoEl.play().catch(err => console.log('Video play error:', err));
     }
   }
