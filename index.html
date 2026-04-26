@@ -48,14 +48,23 @@
       z-index: 0;
     }
 
-    .left-overlay {
+    .left-shape-svg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 8;
+      pointer-events: none;
+    }
+
+    .left-content {
       position: fixed;
       left: 0;
       top: 0;
-      width: 40%;
+      width: 42%;
       height: 100vh;
-      background: white;
-      z-index: 8;
+      z-index: 9;
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -151,8 +160,13 @@
 <!-- Video Background -->
 <video id="videoBackground" class="video-background" playsinline></video>
 
-<!-- Left Overlay -->
-<div class="left-overlay">
+<!-- White curved shape -->
+<svg class="left-shape-svg" viewBox="0 0 100 100" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M 0 0 L 50 0 C 62 12, 44 32, 42 50 C 40 68, 60 82, 50 100 L 0 100 Z" fill="white"/>
+</svg>
+
+<!-- Left content -->
+<div class="left-content">
   <div class="question" id="titleText">Is <s>Timmy</s> Hope still alive?</div>
 </div>
 
