@@ -97,23 +97,132 @@
 
     .loading { display: inline-block; animation: spin 1s linear infinite; }
     @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* Loading Screen */
+    #loadingScreen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #4A9FCA 0%, #2E6B94 100%);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 100;
+      opacity: 1;
+      transition: opacity 0.6s ease;
+    }
+
+    .bubbles-container {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    .bubble {
+      position: absolute;
+      bottom: -100px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.3);
+      border: 2px solid rgba(255, 255, 255, 0.5);
+      animation: rise linear infinite;
+    }
+
+    @keyframes rise {
+      0% {
+        bottom: -100px;
+        opacity: 0;
+      }
+      10% {
+        opacity: 0.7;
+      }
+      90% {
+        opacity: 0.7;
+      }
+      100% {
+        bottom: 110vh;
+        opacity: 0;
+      }
+    }
+
+    /* Bubble variation styles */
+    .bubble:nth-child(1) { width: 30px; height: 30px; left: 10%; animation-duration: 6s; animation-delay: 0s; }
+    .bubble:nth-child(2) { width: 50px; height: 50px; left: 20%; animation-duration: 7s; animation-delay: 1s; }
+    .bubble:nth-child(3) { width: 25px; height: 25px; left: 30%; animation-duration: 5s; animation-delay: 0.5s; }
+    .bubble:nth-child(4) { width: 45px; height: 45px; left: 40%; animation-duration: 8s; animation-delay: 2s; }
+    .bubble:nth-child(5) { width: 35px; height: 35px; left: 50%; animation-duration: 6s; animation-delay: 0.7s; }
+    .bubble:nth-child(6) { width: 40px; height: 40px; left: 60%; animation-duration: 7s; animation-delay: 1.5s; }
+    .bubble:nth-child(7) { width: 28px; height: 28px; left: 70%; animation-duration: 5.5s; animation-delay: 0.3s; }
+    .bubble:nth-child(8) { width: 55px; height: 55px; left: 80%; animation-duration: 8s; animation-delay: 1.2s; }
+    .bubble:nth-child(9) { width: 32px; height: 32px; left: 15%; animation-duration: 6.5s; animation-delay: 2.5s; }
+    .bubble:nth-child(10) { width: 48px; height: 48px; left: 85%; animation-duration: 7.5s; animation-delay: 0.9s; }
+    .bubble:nth-child(11) { width: 26px; height: 26px; left: 45%; animation-duration: 5.5s; animation-delay: 1.8s; }
+    .bubble:nth-child(12) { width: 38px; height: 38px; left: 75%; animation-duration: 7s; animation-delay: 0.2s; }
+
+    /* Hide main content until loading is done */
+    .main-content {
+      opacity: 0;
+      transition: opacity 0.6s ease;
+    }
+
+    .main-content.visible {
+      opacity: 1;
+    }
   </style>
 </head>
 <body>
 
-<!-- Video Background -->
-<video id="videoBackground" class="video-background" playsinline></video>
+<!-- Loading Screen -->
+<div id="loadingScreen">
+  <div class="bubbles-container">
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+  </div>
+</div>
 
-<!-- Text overlay -->
-<div class="question" id="titleText">Is <s>Timmy</s> Hope still alive ?</div>
+<!-- Main Content -->
+<div class="main-content">
+  <!-- Video Background -->
+  <video id="videoBackground" class="video-background" playsinline></video>
 
-<button class="check-button" id="checkBtn" onclick="checkTimmyStatus()">Ask Timmy</button>
+  <!-- Text overlay -->
+  <div class="question" id="titleText">Is <s>Timmy</s> Hope still alive ?</div>
+
+  <button class="check-button" id="checkBtn" onclick="checkTimmyStatus()">Ask Timmy</button>
+</div>
 
 <script>
-  // Load video on page load
+  // Load video and hide loading screen when ready
   document.addEventListener('DOMContentLoaded', () => {
     const videoEl = document.getElementById('videoBackground');
+    const loadingScreen = document.getElementById('loadingScreen');
+    const mainContent = document.querySelector('.main-content');
+
+    function hideLoadingScreen() {
+      loadingScreen.style.opacity = '0';
+      setTimeout(() => {
+        loadingScreen.style.display = 'none';
+        mainContent.classList.add('visible');
+      }, 600);
+    }
+
     videoEl.src = './alive_vid.mov';
+
+    // Hide loading screen when video is ready or after 8s fallback
+    videoEl.addEventListener('canplaythrough', hideLoadingScreen, { once: true });
+    setTimeout(hideLoadingScreen, 8000);
   });
 
   async function checkTimmyStatus() {
