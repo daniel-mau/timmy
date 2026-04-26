@@ -244,7 +244,6 @@
   <div class="question" id="titleText">Is <s>Timmy</s> Hope still alive ?</div>
 
   <button class="check-button" id="checkBtn" onclick="checkTimmyStatus()">Ask Timmy</button>
-  <button class="check-button" id="debugBtn" onclick="simulateDead()" style="bottom: 5%; font-size: 0.8rem; padding: 8px 16px;">DEBUG: Timmy Dead</button>
 </div>
 
 <script>
@@ -396,31 +395,6 @@
       videoEl.currentTime = 0;
       videoEl.play().catch(err => console.log('Video play error:', err));
     }
-  }
-
-  // Debug function to simulate dead scenario
-  function simulateDead() {
-    const titleEl = document.getElementById('titleText');
-    const btn = document.getElementById('checkBtn');
-    const videoEl = document.getElementById('videoBackground');
-    const deadVideoEl = document.getElementById('deadVideoBackground');
-
-    titleEl.innerHTML = '<s>Timmy</s> Hope is dead 💀';
-    btn.innerHTML = 'I am dead 💀';
-    btn.disabled = true;
-    titleEl.style.color = 'white';
-
-    // Switch to dead video
-    videoEl.pause();
-    videoEl.style.display = 'none';
-    deadVideoEl.style.display = 'block';
-    deadVideoEl.currentTime = 0;
-    deadVideoEl.play().catch(err => console.log('Video play error:', err));
-
-    setTimeout(() => {
-      btn.disabled = false;
-      btn.innerHTML = 'Ask Timmy';
-    }, 3000);
   }
 </script>
 </body>
