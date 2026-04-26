@@ -292,7 +292,12 @@
     videoEl.src = './alive_vid.mp4';
     videoEl.preload = 'auto';
     videoEl.addEventListener('canplaythrough', () => {
+      // Play briefly then pause to force first frame render
       videoEl.currentTime = 0;
+      videoEl.play().then(() => {
+        videoEl.pause();
+        videoEl.currentTime = 0;
+      }).catch(() => {});
       aliveReady = true;
       checkIfBothReady();
     }, { once: true });
