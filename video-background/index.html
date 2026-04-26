@@ -135,6 +135,7 @@
       font-weight: 600;
       z-index: 102;
       text-align: center;
+      font-family: 'FindetNemo', sans-serif;
     }
 
     /* Light rays from the surface - HIDDEN */
@@ -227,7 +228,7 @@
     <div class="bubble"></div>
   </div>
   <button class="loading-button" disabled>LOADING<span id="loadingDots">...</span></button>
-  <div id="loadingText">LOADING<span id="loadingDots">.</span></div>
+  <div id="loadingText">LOADING</div>
 </div>
 
 <!-- Main Content -->
@@ -242,13 +243,13 @@
 </div>
 
 <script>
-  // Animate loading dots: . → .. → ... → .. → . (building up and down)
-  const dotsEl = document.getElementById('loadingDots');
-  const dotStates = ['.', '..', '...', '..', '.'];
-  let dotIndex = 0;
+  // Animate loading text: LOADING → LOADING . → LOADING .. → LOADING ...
+  const loadingTextEl = document.getElementById('loadingText');
+  const loadingStates = ['LOADING', 'LOADING .', 'LOADING ..', 'LOADING ...'];
+  let loadingIndex = 0;
   const dotsInterval = setInterval(() => {
-    dotIndex = (dotIndex + 1) % dotStates.length;
-    dotsEl.textContent = dotStates[dotIndex];
+    loadingIndex = (loadingIndex + 1) % loadingStates.length;
+    loadingTextEl.textContent = loadingStates[loadingIndex];
   }, 400);
 
   // Preload both videos and hide loading screen when ready
