@@ -255,7 +255,7 @@
 <!-- Main Content -->
 <div class="main-content">
   <!-- Video Background -->
-  <video id="videoBackground" class="video-background" playsinline></video>
+  <video id="videoBackground" class="video-background" playsinline muted></video>
 
   <!-- Text overlay -->
   <div class="question" id="titleText">Is <s>Timmy</s> Hope still alive ?</div>
@@ -299,20 +299,20 @@
       }, 600);
     }
 
-    // Set up alive video in the background (visible but not playing)
+    // Set up alive video — play muted briefly, then pause to show first frame
     videoEl.src = './alive_vid.mp4';
     videoEl.preload = 'auto';
     videoEl.muted = true;
-    videoEl.addEventListener('loadeddata', () => {
-      // Play briefly then pause to render first frame (muted allows autoplay)
+
+    videoEl.addEventListener('canplay', () => {
       videoEl.play().then(() => {
-        videoEl.pause();
-        videoEl.currentTime = 0;
-        aliveReady = true;
-        checkIfBothReady();
+        // Pause at very first frame once playback starts
+        videoEl.addEventListener('timeupdate', () => {
+          videoEl.pause();
+          aliveReady = true;
+          checkIfBothReady();
+        }, { once: true });
       }).catch(() => {
-        // Fallback: just seek
-        videoEl.currentTime = 0.001;
         aliveReady = true;
         checkIfBothReady();
       });
