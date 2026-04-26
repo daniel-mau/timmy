@@ -204,11 +204,20 @@
 </div>
 
 <script>
-  // Load video and hide loading screen
+  // Preload both videos and hide loading screen when ready
   document.addEventListener('DOMContentLoaded', () => {
     const loadingScreen = document.getElementById('loadingScreen');
     const mainContent = document.querySelector('.main-content');
     const videoEl = document.getElementById('videoBackground');
+
+    let aliveReady = false;
+    let deadReady = false;
+
+    function checkIfBothReady() {
+      if (aliveReady && deadReady) {
+        hideLoadingScreen();
+      }
+    }
 
     function hideLoadingScreen() {
       loadingScreen.style.opacity = '0';
@@ -218,8 +227,32 @@
       }, 600);
     }
 
-    // Hide loading screen after a short delay
-    setTimeout(hideLoadingScreen, 2000);
+    // Set up alive video in the background (visible but not playing)
+    videoEl.src = './alive_vid.mp4';
+    videoEl.preload = 'auto';
+    videoEl.addEventListener('canplaythrough', () => {
+      aliveReady = true;
+      checkIfBothReady();
+    }, { once: true });
+
+    // Create a hidden video element to preload the dead video
+    const deadVideoEl = document.createElement('video');
+    deadVideoEl.src = './dead_vid.mp4';
+    deadVideoEl.preload = 'auto';
+    deadVideoEl.style.display = 'none';
+    document.body.appendChild(deadVideoEl);
+
+    deadVideoEl.addEventListener('canplaythrough', () => {
+      deadReady = true;
+      checkIfBothReady();
+    }, { once: true });
+
+    // Fallback: hide loading screen after 8s if videos take too long
+    setTimeout(() => {
+      if (!aliveReady || !deadReady) {
+        hideLoadingScreen();
+      }
+    }, 8000);
   });
 
   async function checkTimmyStatus() {
@@ -279,7 +312,7 @@
       titleEl.innerHTML = '<s>Timmy</s> Hope is dead 💀';
       btn.innerHTML = 'I am dead 💀';
 
-      // Play dead video
+      // Switch to dead video and play
       videoEl.src = './dead_vid.mp4';
       videoEl.currentTime = 0;
       videoEl.play().catch(err => console.log('Video play error:', err));
@@ -293,8 +326,7 @@
       btn.disabled = false;
       btn.innerHTML = 'Ask Timmy';
 
-      // Play alive video
-      videoEl.src = './alive_vid.mp4';
+      // Play alive video (already loaded and visible)
       videoEl.currentTime = 0;
       videoEl.play().catch(err => console.log('Video play error:', err));
     }
