@@ -218,8 +218,6 @@
       }, 600);
     }
 
-    videoEl.src = './alive_vid.mp4';
-
     // Hide loading screen after a short delay
     setTimeout(hideLoadingScreen, 2000);
   });
@@ -276,10 +274,16 @@
       return;
     }
 
-    // Show result and play video only if alive
+    // Show result and play corresponding video
     if (dead) {
       titleEl.innerHTML = '<s>Timmy</s> Hope is dead 💀';
       btn.innerHTML = 'I am dead 💀';
+
+      // Play dead video
+      videoEl.src = './dead_vid.mp4';
+      videoEl.currentTime = 0;
+      videoEl.play().catch(err => console.log('Video play error:', err));
+
       setTimeout(() => {
         btn.disabled = false;
         btn.innerHTML = 'Ask Timmy';
@@ -289,7 +293,8 @@
       btn.disabled = false;
       btn.innerHTML = 'Ask Timmy';
 
-      // Play video only when Timmy is alive
+      // Play alive video
+      videoEl.src = './alive_vid.mp4';
       videoEl.currentTime = 0;
       videoEl.play().catch(err => console.log('Video play error:', err));
     }
