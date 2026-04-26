@@ -65,7 +65,7 @@
       font-weight: 400;
       font-family: 'FindetNemo', sans-serif;
       color: white;
-      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5), 0 0 20px rgba(0, 0, 0, 0.3);
       letter-spacing: 0px;
       line-height: 1.2;
       text-transform: capitalize;
@@ -94,6 +94,9 @@
     }
     .check-button:hover { box-shadow: 0 6px 20px rgba(0,0,0,0.3); }
     .check-button:disabled { opacity: 0.7; cursor: not-allowed; }
+    .check-button {
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    }
 
     .loading { display: inline-block; animation: spin 1s linear infinite; }
     @keyframes spin { to { transform: rotate(360deg); } }
@@ -177,15 +180,15 @@
       if (dead) {
         titleEl.innerHTML = '<s>Timmy</s> Hope is dead 💀';
         btn.innerHTML = 'I am dead 💀';
+        setTimeout(() => {
+          btn.disabled = false;
+          btn.innerHTML = 'Ask Timmy';
+        }, 3000);
       } else {
         titleEl.innerHTML = '<s>Timmy</s> Hope is alive!';
-        btn.innerHTML = 'I am still there';
-      }
-
-      setTimeout(() => {
         btn.disabled = false;
         btn.innerHTML = 'Ask Timmy';
-      }, 3000);
+      }
 
       videoEl.removeEventListener('ended', updateAfterVideo);
     }
