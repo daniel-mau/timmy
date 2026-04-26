@@ -39,7 +39,7 @@
       align-items: center;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       overflow-x: hidden;
-      background: white;
+      background: #061929;
       position: relative;
     }
 
@@ -302,11 +302,20 @@
     // Set up alive video in the background (visible but not playing)
     videoEl.src = './alive_vid.mp4';
     videoEl.preload = 'auto';
+    videoEl.muted = true;
     videoEl.addEventListener('loadeddata', () => {
-      // Seek to first frame to render it
-      videoEl.currentTime = 0.001;
-      aliveReady = true;
-      checkIfBothReady();
+      // Play briefly then pause to render first frame (muted allows autoplay)
+      videoEl.play().then(() => {
+        videoEl.pause();
+        videoEl.currentTime = 0;
+        aliveReady = true;
+        checkIfBothReady();
+      }).catch(() => {
+        // Fallback: just seek
+        videoEl.currentTime = 0.001;
+        aliveReady = true;
+        checkIfBothReady();
+      });
     }, { once: true });
 
     // Create a hidden video element to preload the dead video
@@ -401,6 +410,7 @@
       btn.innerHTML = 'Ask Timmy';
 
       // Play alive video (already loaded and visible)
+      videoEl.muted = false;
       videoEl.currentTime = 0;
       videoEl.play().catch(err => console.log('Video play error:', err));
     }
