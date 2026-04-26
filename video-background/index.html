@@ -97,31 +97,14 @@
     .check-button:hover { box-shadow: 0 6px 20px rgba(0,0,0,0.3); }
     .check-button:disabled { opacity: 0.7; cursor: not-allowed; }
 
+    /* Loading button - HIDDEN */
     .loading-button {
-      position: fixed;
-      bottom: 15%;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 101;
-      background: white;
-      border: none;
-      color: #4A9FCA;
-      padding: clamp(14px, 2.5vw, 18px) clamp(36px, 8vw, 56px);
-      font-size: clamp(1.1rem, 3vw, 1.4rem);
-      font-weight: 600;
-      border-radius: 40px;
-      cursor: not-allowed;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-      white-space: nowrap;
-      height: auto;
-      min-width: 200px;
+      display: none;
     }
 
     #loadingDots {
-      display: inline-block;
-      width: 1.5ch;
-      text-align: left;
-      letter-spacing: 0.1em;
+      display: inline;
+      letter-spacing: 0.05em;
     }
 
     .loading { display: inline-block; animation: spin 1s linear infinite; }
@@ -134,36 +117,28 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: linear-gradient(to bottom,
-        #5AACDF 0%,
-        #3A8AB5 12%,
-        #1B5E8A 28%,
-        #0D3B5F 48%,
-        #061929 70%,
-        #020A12 100%
-      );
+      background: linear-gradient(to bottom, rgb(123, 210, 241) 0%, rgb(64, 126, 208) 100%);
       z-index: 100;
       opacity: 1;
       transition: opacity 0.6s ease;
       overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
 
-    /* Light rays from the surface */
-    .light-rays {
+    #loadingText {
       position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 60%;
-      background:
-        repeating-linear-gradient(
-          -15deg,
-          transparent 0px,
-          transparent 40px,
-          rgba(255,255,255,0.04) 40px,
-          rgba(255,255,255,0.04) 80px
-        );
-      pointer-events: none;
+      font-size: clamp(2rem, 5vw, 4rem);
+      color: white;
+      font-weight: 600;
+      z-index: 102;
+      text-align: center;
+    }
+
+    /* Light rays from the surface - HIDDEN */
+    .light-rays {
+      display: none;
     }
 
     .bubbles-container {
@@ -250,6 +225,7 @@
     <div class="bubble"></div>
   </div>
   <button class="loading-button" disabled>LOADING<span id="loadingDots">...</span></button>
+  <div id="loadingText">LOADING<span id="loadingDots">.</span></div>
 </div>
 
 <!-- Main Content -->
@@ -264,14 +240,14 @@
 </div>
 
 <script>
-  // Animate loading dots: ... → .. → . → ...
+  // Animate loading dots: . → .. → ... → .. → . (building up and down)
   const dotsEl = document.getElementById('loadingDots');
-  const dotStates = ['...', '..', '.', '...'];
+  const dotStates = ['.', '..', '...', '..', '.'];
   let dotIndex = 0;
   const dotsInterval = setInterval(() => {
     dotIndex = (dotIndex + 1) % dotStates.length;
     dotsEl.textContent = dotStates[dotIndex];
-  }, 500);
+  }, 400);
 
   // Preload both videos and hide loading screen when ready
   document.addEventListener('DOMContentLoaded', () => {
