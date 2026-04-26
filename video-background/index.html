@@ -252,6 +252,7 @@
     videoEl.src = './alive_vid.mp4';
     videoEl.preload = 'auto';
     videoEl.addEventListener('canplaythrough', () => {
+      videoEl.currentTime = 0;
       aliveReady = true;
       checkIfBothReady();
     }, { once: true });
