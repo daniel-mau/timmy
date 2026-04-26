@@ -141,6 +141,19 @@
       white-space: nowrap;
     }
 
+    #loadingSubtext {
+      position: absolute;
+      font-size: clamp(0.8rem, 2vw, 1.2rem);
+      color: white;
+      font-weight: 400;
+      z-index: 102;
+      text-align: center;
+      top: 55%;
+      left: 50%;
+      transform: translateX(-50%);
+      white-space: nowrap;
+    }
+
     /* Light rays from the surface - HIDDEN */
     .light-rays {
       display: none;
@@ -232,6 +245,7 @@
   </div>
   <button class="loading-button" disabled>LOADING<span id="loadingDots">...</span></button>
   <div id="loadingText">LOADING</div>
+  <div id="loadingSubtext">connecting to news channels</div>
 </div>
 
 <!-- Main Content -->
