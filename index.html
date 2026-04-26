@@ -204,11 +204,11 @@
 </div>
 
 <script>
-  // Load video and hide loading screen when ready
+  // Load video and hide loading screen
   document.addEventListener('DOMContentLoaded', () => {
-    const videoEl = document.getElementById('videoBackground');
     const loadingScreen = document.getElementById('loadingScreen');
     const mainContent = document.querySelector('.main-content');
+    const videoEl = document.getElementById('videoBackground');
 
     function hideLoadingScreen() {
       loadingScreen.style.opacity = '0';
@@ -220,9 +220,8 @@
 
     videoEl.src = './alive_vid.mp4';
 
-    // Hide loading screen when video is ready or after 8s fallback
-    videoEl.addEventListener('canplaythrough', hideLoadingScreen, { once: true });
-    setTimeout(hideLoadingScreen, 8000);
+    // Hide loading screen after a short delay
+    setTimeout(hideLoadingScreen, 2000);
   });
 
   async function checkTimmyStatus() {
@@ -233,10 +232,6 @@
     btn.disabled = true;
     titleEl.innerHTML = 'Is <s>Timmy</s> Hope still alive ?';
     btn.innerHTML = '<span class="loading">⏳</span> Asking Timmy...';
-
-    // Play video once
-    videoEl.currentTime = 0;
-    videoEl.play().catch(err => console.log('Video play error:', err));
 
     let dead = false;
 
@@ -281,25 +276,23 @@
       return;
     }
 
-    // Wait for video to end before updating text
-    function updateAfterVideo() {
-      if (dead) {
-        titleEl.innerHTML = '<s>Timmy</s> Hope is dead 💀';
-        btn.innerHTML = 'I am dead 💀';
-        setTimeout(() => {
-          btn.disabled = false;
-          btn.innerHTML = 'Ask Timmy';
-        }, 3000);
-      } else {
-        titleEl.innerHTML = '<s>Timmy</s> Hope is alive !';
+    // Show result and play video only if alive
+    if (dead) {
+      titleEl.innerHTML = '<s>Timmy</s> Hope is dead 💀';
+      btn.innerHTML = 'I am dead 💀';
+      setTimeout(() => {
         btn.disabled = false;
         btn.innerHTML = 'Ask Timmy';
-      }
+      }, 3000);
+    } else {
+      titleEl.innerHTML = '<s>Timmy</s> Hope is alive !';
+      btn.disabled = false;
+      btn.innerHTML = 'Ask Timmy';
 
-      videoEl.removeEventListener('ended', updateAfterVideo);
+      // Play video only when Timmy is alive
+      videoEl.currentTime = 0;
+      videoEl.play().catch(err => console.log('Video play error:', err));
     }
-
-    videoEl.addEventListener('ended', updateAfterVideo);
   }
 </script>
 </body>
