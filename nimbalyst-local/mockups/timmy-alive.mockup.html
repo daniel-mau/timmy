@@ -117,7 +117,7 @@
 
     btn.disabled = true;
     titleEl.innerHTML = 'Is <s>Timmy</s> Hope still alive?';
-    btn.innerHTML = '<span class="loading">⏳</span> Asking Timmy...';
+    btn.innerHTML = '<span class="loading">⏳</span> ASKING TIMMY...';
 
     // Play video once
     videoEl.currentTime = 0;
@@ -161,23 +161,30 @@
     } catch (e) {
       titleEl.textContent = 'Kein Netzzugang';
       titleEl.style.color = '#ff6b6b';
-      btn.innerHTML = 'Ask Timmy';
+      btn.innerHTML = 'ASK TIMMY';
       btn.disabled = false;
       return;
     }
 
-    if (dead) {
-      titleEl.innerHTML = '<s>Timmy</s> Hope is dead 💀';
-      btn.innerHTML = 'I am dead 💀';
-    } else {
-      titleEl.innerHTML = '<s>Timmy</s> Hope is alive!';
-      btn.innerHTML = 'I am still there';
+    // Wait for video to end before updating text
+    function updateAfterVideo() {
+      if (dead) {
+        titleEl.innerHTML = '<s>Timmy</s> Hope is dead 💀';
+        btn.innerHTML = 'I AM DEAD 💀';
+      } else {
+        titleEl.innerHTML = '<s>Timmy</s> Hope is alive!';
+        btn.innerHTML = 'I AM STILL THERE';
+      }
+
+      setTimeout(() => {
+        btn.disabled = false;
+        btn.innerHTML = 'ASK TIMMY';
+      }, 3000);
+
+      videoEl.removeEventListener('ended', updateAfterVideo);
     }
 
-    setTimeout(() => {
-      btn.disabled = false;
-      btn.innerHTML = 'Ask Timmy';
-    }, 3000);
+    videoEl.addEventListener('ended', updateAfterVideo);
   }
 </script>
 </body>
