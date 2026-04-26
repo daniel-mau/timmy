@@ -293,6 +293,8 @@
       loadingScreen.style.opacity = '0';
       setTimeout(() => {
         loadingScreen.style.display = 'none';
+        // Ensure video first frame is visible
+        videoEl.currentTime = 0.001;
         mainContent.classList.add('visible');
       }, 600);
     }
@@ -300,13 +302,9 @@
     // Set up alive video in the background (visible but not playing)
     videoEl.src = './alive_vid.mp4';
     videoEl.preload = 'auto';
-    videoEl.addEventListener('canplaythrough', () => {
-      // Play briefly then pause to force first frame render
-      videoEl.currentTime = 0;
-      videoEl.play().then(() => {
-        videoEl.pause();
-        videoEl.currentTime = 0;
-      }).catch(() => {});
+    videoEl.addEventListener('loadeddata', () => {
+      // Seek to first frame to render it
+      videoEl.currentTime = 0.001;
       aliveReady = true;
       checkIfBothReady();
     }, { once: true });
