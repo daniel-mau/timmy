@@ -75,9 +75,22 @@
       max-width: 90vw;
       word-wrap: break-word;
       white-space: normal;
-      text-decoration-line: line-through;
-      text-decoration-thickness: 0.1em;
-      text-underline-offset: 0.05em;
+    }
+
+    /* Override native strikethrough and draw it exactly at vertical center */
+    .question s {
+      text-decoration: none;
+      position: relative;
+    }
+    .question s::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 50%;
+      height: 0.08em;
+      background: currentColor;
+      transform: translateY(-50%);
     }
 
     .check-button {
