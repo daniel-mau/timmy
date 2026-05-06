@@ -363,7 +363,7 @@
     // If timmyIsAlive is false, skip news check and set dead status immediately
     if (typeof timmyIsAlive !== 'undefined' && !timmyIsAlive) {
       const deadVideoEl = document.getElementById('deadVideoBackground');
-      titleEl.innerHTML = '<s>Timmy</s> Hope is most likely dead 💀';
+      titleEl.innerHTML = '<s>Timmy</s> Hope is dead 💀';
       btn.innerHTML = 'I am dead 💀';
       videoEl.pause();
       videoEl.style.display = 'none';
@@ -428,7 +428,7 @@
     titleEl.style.color = 'white';
 
     if (dead) {
-      titleEl.innerHTML = '<s>Timmy</s> Hope is most likely dead 💀';
+      titleEl.innerHTML = '<s>Timmy</s> Hope is dead 💀';
       btn.innerHTML = 'I am dead 💀';
 
       // Switch to dead video without load() — just swap visibility and replay
