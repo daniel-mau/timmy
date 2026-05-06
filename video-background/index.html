@@ -355,6 +355,23 @@
     titleEl.innerHTML = 'Is <s>Timmy</s> Hope still alive ?';
     btn.innerHTML = '<span class="loading">⏳</span> Asking Timmy...';
 
+    // If timmyIsAlive is false, skip news check and set dead status immediately
+    if (typeof timmyIsAlive !== 'undefined' && !timmyIsAlive) {
+      const deadVideoEl = document.getElementById('deadVideoBackground');
+      titleEl.innerHTML = '<s>Timmy</s> Hope is most likely dead 💀';
+      btn.innerHTML = 'I am dead 💀';
+      videoEl.pause();
+      videoEl.style.display = 'none';
+      deadVideoEl.style.display = 'block';
+      deadVideoEl.currentTime = 0;
+      deadVideoEl.play().catch(err => console.log('Video play error:', err));
+      setTimeout(() => {
+        btn.disabled = false;
+        btn.innerHTML = 'Ask Timmy';
+      }, 3000);
+      return;
+    }
+
     let dead = false;
 
     try {
