@@ -388,7 +388,9 @@
         aliveWords.forEach(w => { if (content.includes(w)) aliveCount++; });
       });
 
-      dead = deadCount > 0 && deadCount >= aliveCount;
+      // timmyIsAlive: true if more alive words found, false if more dead words found
+      const timmyIsAlive = aliveCount > deadCount;
+      dead = !timmyIsAlive;
 
     } catch (e) {
       titleEl.textContent = 'No network connection';
